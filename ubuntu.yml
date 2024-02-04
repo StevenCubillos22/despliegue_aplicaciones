@@ -187,7 +187,18 @@ Resources:
           systemctl enable tomcat
           #Permitimos el trafico al puerto 80 para aceptar solicitudes http
           ufw allow 8080
-          # Esta tiene que ser la última instrucción
+          cd /tmp
+          mkdir AppJava
+          cd AppJava
+          git clone https://github.com/StevenCubillos22/despliegue_aplicaciones.git 
+          cd despliegue_aplicaciones/
+          cd springholamundo-main/
+          chmod +x gradlew
+          rm -rf /tmp/AppJava/despliegue_aplicaciones/springholamundo-main/.gradle
+          ./gradlew war
+          cd build/libs/
+          mv holamundo-0.0.1-SNAPSHOT-plain.war /opt/tomcat/webapps/holamundo-0.0.1-SNAPSHOT-plain.war
+          # Esta  linea seria la última instrucción
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2Instance --region ${AWS::Region}
       Tags:
         - Key: Name
