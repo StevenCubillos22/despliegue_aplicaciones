@@ -22,9 +22,17 @@ aws cloudformation deploy \
 	--parameter-override EC2InstanceType=$EC2_INSTANCE_TYPE
 
 
+# Verifica el despliegue  si fue un éxito a la hora de ejecutarlo
 if [ $? -eq 0 ]; then
-aws cloudformation list-exports \
---profile awsbootstrap \
---query "Exports[?Name=='InstanceEndpoint'].Value"
-fi
+    # Obtener la URL de la instancia exportada
+    INSTANCE_ENDPOINT=$(aws cloudformation list-exports \
+        --profile $CLI_PROFILE \
+        --query "Exports[?Name=='InstanceEndpoint'].Value" \
+        --output text)
 
+    # Imprimir la URL
+    echo "La URL de la instancia es: $INSTANCE_ENDPOINT"
+
+    # Exportar la variable para que esté disponible para YAML
+    export EC2Instance=$INSTANCE_ENDPOINT
+fi

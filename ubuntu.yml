@@ -106,7 +106,7 @@ Resources:
         Fn::Base64: !Sub |
           #!/bin/bash -xe
           exec > /tmp/userdata.log 2>&1
-          # Actualizar todas las apps
+          # Actualizar todas las apps 
           apt update -y
           # Instalar unzip
           apt install unzip
@@ -224,5 +224,5 @@ Resources:
 Outputs:
   DNSPublicoInstancia:
       Description: "DNS que se tiene la instancia pública"
-      Value: !Sub "http://${EC2Instance.PublicDnsName}:8080"
+      Value: !Sub "http://${EC2Instance.PublicDnsName}:8080" 
       
